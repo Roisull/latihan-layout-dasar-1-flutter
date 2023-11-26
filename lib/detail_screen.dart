@@ -1,7 +1,17 @@
 import 'package:flutter/material.dart';
 
-class DetailScreen extends StatelessWidget {
+class DetailScreen extends StatefulWidget {
   const DetailScreen({super.key});
+
+  @override
+  State<DetailScreen> createState() => _DetailScreenState();
+}
+
+class _DetailScreenState extends State<DetailScreen> {
+
+  var oxygenTextStyle_14 = const TextStyle(fontFamily: 'Oxygen', fontSize: 14.0);
+
+  var oxygenTextStyle_12 = const TextStyle(fontFamily: 'Oxygen', fontSize: 12.0);
 
   @override
   Widget build(BuildContext context) {
@@ -20,34 +30,43 @@ class DetailScreen extends StatelessWidget {
                 textAlign: TextAlign.center,
                 style: TextStyle(
                   fontSize: 20.0,
-                  fontWeight: FontWeight.bold
+                  fontFamily: 'Staatliches',
                 ),
               ),
             ),
             Container(
               margin: const EdgeInsets.symmetric(vertical: 16.0),
-              child: const Row(
+              child: Row(
                 mainAxisAlignment: MainAxisAlignment.spaceEvenly,
                 children: <Widget>[
                   Column(
                     children: <Widget>[
-                      Icon(Icons.calendar_today),
-                      SizedBox(height: 8.0,),
-                      Text('Daily Open'),
+                      const Icon(Icons.calendar_today),
+                      const SizedBox(height: 8.0,),
+                      Text(
+                        'Daily Open',
+                        style: oxygenTextStyle_12,
+                      ),
                     ],
                   ),
                   Column(
                     children: <Widget>[
-                      Icon(Icons.access_time),
-                      SizedBox(height: 8.0,),
-                      Text('09.00 - 20.00'),
+                      const Icon(Icons.access_time),
+                      const SizedBox(height: 8.0,),
+                      Text(
+                        '09.00 - 20.00',
+                        style: oxygenTextStyle_12,
+                      ),
                     ],
                   ),
                   Column(
                     children: <Widget>[
-                      Icon(Icons.attach_money_outlined),
-                      SizedBox(height: 8.0,),
-                      Text('Rp 25.000'),
+                      const Icon(Icons.attach_money_outlined),
+                      const SizedBox(height: 8.0,),
+                      Text(
+                        'Rp 25.000',
+                        style: oxygenTextStyle_12,
+                      ),
                     ],
                   ),
                 ],
@@ -55,8 +74,9 @@ class DetailScreen extends StatelessWidget {
             ),
             Container(
               padding: const EdgeInsets.only(left: 24.0, right: 24.0, bottom: 24.0),
-              child: const Text(
+              child: Text(
                 'Terhitung satu abad yang lalu, tepatnya pada tahun 1917M. K.H.M Bishri Sansuri bersama istri beliau, Nyai Hj. Noor Khodijah, atas restu gurunya, K.H Hasyim Asyari, serta dorongan mertua beliau, K.H Hasbullah, mendirikan pesantren di Denanyar yang berjarak 2 Km dari arah barat kota Jombang.',
+                style: oxygenTextStyle_14,
                 textAlign: TextAlign.center,
               ),
             ),
@@ -99,11 +119,16 @@ class DetailScreen extends StatelessWidget {
                 ],
               ),
             ),
-            const Center(child: Text('<< scroll >>')),
+            const Center(
+              child: Text('<< scroll >>',
+              style: TextStyle(
+                color: Colors.green,
+              ),
+              )
+            ),
           ],
         ),
       ),
     );
   }
-
 }
