@@ -1,7 +1,9 @@
 import 'package:flutter/material.dart';
+import 'package:wisata_jombang/model/tourism_place.dart';
 
 class DetailScreen extends StatefulWidget {
-  const DetailScreen({super.key});
+  final TourismPlace place;
+  const DetailScreen({super.key, required this.place});
 
   @override
   State<DetailScreen> createState() => _DetailScreenState();
@@ -13,6 +15,13 @@ class _DetailScreenState extends State<DetailScreen> {
 
   var oxygenTextStyle_12 = const TextStyle(fontFamily: 'Oxygen', fontSize: 12.0);
 
+  // late TourismPlace _place;
+  // @override
+  // void initState() {
+  //   super.initState();
+  //   _place = place;
+  // }
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -20,15 +29,41 @@ class _DetailScreenState extends State<DetailScreen> {
         child: Column(
           crossAxisAlignment: CrossAxisAlignment.stretch,
           children: <Widget>[
-            Image.asset(
-              'assets/images/banner_pondok.jpeg',
+            Stack(
+              children: [
+                Image.asset(
+                  widget.place.imageAsset
+                ),
+                SafeArea(
+                  child: Padding(
+                    padding: const EdgeInsets.all(8.0),
+                    child: Row(
+                      mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                      children: [
+                        CircleAvatar(
+                          backgroundColor: Colors.white,
+                          child: IconButton(
+                            icon: const Icon(Icons.arrow_back), 
+                            onPressed: () {
+                              Navigator.pop(context);
+                            }),
+                        ),
+                        const CircleAvatar(
+                          backgroundColor: Colors.white,
+                          child: FavoriteButton()
+                        )
+                      ],
+                    ),
+                  ),
+                )
+              ],
             ),
             Container(
               margin: const EdgeInsets.only(top: 16.0),
-              child: const Text(
-                'Pondok Pesantren Denanyar',
+              child: Text(
+                widget.place.name,
                 textAlign: TextAlign.center,
-                style: TextStyle(
+                style: const TextStyle(
                   fontSize: 20.0,
                   fontFamily: 'Staatliches',
                 ),
@@ -44,7 +79,7 @@ class _DetailScreenState extends State<DetailScreen> {
                       const Icon(Icons.calendar_today),
                       const SizedBox(height: 8.0,),
                       Text(
-                        'Daily Open',
+                        widget.place.openDays,
                         style: oxygenTextStyle_12,
                       ),
                     ],
@@ -54,7 +89,7 @@ class _DetailScreenState extends State<DetailScreen> {
                       const Icon(Icons.access_time),
                       const SizedBox(height: 8.0,),
                       Text(
-                        '09.00 - 20.00',
+                        widget.place.openTime,
                         style: oxygenTextStyle_12,
                       ),
                     ],
@@ -64,7 +99,7 @@ class _DetailScreenState extends State<DetailScreen> {
                       const Icon(Icons.attach_money_outlined),
                       const SizedBox(height: 8.0,),
                       Text(
-                        'Rp 25.000',
+                        widget.place.ticketPrice,
                         style: oxygenTextStyle_12,
                       ),
                     ],
@@ -75,7 +110,7 @@ class _DetailScreenState extends State<DetailScreen> {
             Container(
               padding: const EdgeInsets.only(left: 24.0, right: 24.0, bottom: 24.0),
               child: Text(
-                'Terhitung satu abad yang lalu, tepatnya pada tahun 1917M. K.H.M Bishri Sansuri bersama istri beliau, Nyai Hj. Noor Khodijah, atas restu gurunya, K.H Hasyim Asyari, serta dorongan mertua beliau, K.H Hasbullah, mendirikan pesantren di Denanyar yang berjarak 2 Km dari arah barat kota Jombang.',
+                widget.place.description,
                 style: oxygenTextStyle_14,
                 textAlign: TextAlign.center,
               ),
@@ -88,35 +123,18 @@ class _DetailScreenState extends State<DetailScreen> {
             //   'https://storage.nu.or.id/storage/post/16_9/mid/1600849777.jpg'
             // ),
             SizedBox(
-              height: 250,
+              height: 150,
               child: ListView(
                 scrollDirection: Axis.horizontal,
-                children: <Widget>[
-                  Padding(
-                    padding: const EdgeInsets.all(10.0),
+                children: widget.place.imageUrls.map((url) {
+                  return Padding(
+                    padding: const EdgeInsets.all(4.0),
                     child: ClipRRect(
-                      borderRadius: const BorderRadius.all(Radius.circular(30.0)),
-                      child: Image.network(
-                          'https://cdn.timesmedia.co.id/images/2021/02/09/KH-Abdussalam-Shokhib.jpg'),
+                      borderRadius: BorderRadius.circular(10),
+                      child: Image.network(url),
                     ),
-                  ),
-                  Padding(
-                    padding: const EdgeInsets.all(10.0),
-                    child: ClipRRect(
-                      borderRadius: const BorderRadius.all(Radius.circular(30.0)),
-                      child: Image.network(
-                          'https://www.laduni.id/panel/themes/default/uploads/post/400x250/15D-Anyar.jpg'),
-                    ),
-                  ),
-                  Padding(
-                    padding: const EdgeInsets.all(10.0),
-                    child: ClipRRect(
-                      borderRadius: const BorderRadius.all(Radius.circular(30.0)),
-                      child: Image.network(
-                          'https://faktualnews.co/images/2020/07/ponpes-denanyar-jombang.jpg'),
-                    ),
-                  ),
-                ],
+                  );
+                }).toList(),
               ),
             ),
             const Center(
@@ -129,6 +147,30 @@ class _DetailScreenState extends State<DetailScreen> {
           ],
         ),
       ),
+    );
+  }
+}
+
+class FavoriteButton extends StatefulWidget {
+  const FavoriteButton({super.key});
+
+  @override
+  State<FavoriteButton> createState() => _FavoriteButtonState();
+}
+
+class _FavoriteButtonState extends State<FavoriteButton> {
+  bool isFavorite = false;
+  @override
+  Widget build(BuildContext context) {
+    return IconButton(
+      icon: Icon(
+        isFavorite ? Icons.favorite : Icons.favorite_border),
+        color: Colors.red,
+      onPressed: (){
+        setState(() {
+          isFavorite = !isFavorite;
+        });
+      },
     );
   }
 }
